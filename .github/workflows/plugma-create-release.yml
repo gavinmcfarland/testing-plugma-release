@@ -12,6 +12,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
 
+    outputs:
+      NEW_VERSION: ${{ steps.determine_release_type.outputs.new_version }} # Define NEW_VERSION as output
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -38,7 +41,7 @@ jobs:
           fi
 
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-          echo "New version set to: $NEW_VERSION"
+          echo "::set-output name=new_version::$NEW_VERSION" # Set NEW_VERSION as output for later steps
 
       - name: Check if tag exists
         run: git tag -l
@@ -85,9 +88,8 @@ jobs:
           ref: main # Make sure we are on the main branch
           fetch-depth: 0 # Fetch all history so we can perform the reset
 
-      - name: Show NEW_VERSION value
-        run: |
-          echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
+      - name: Debug: Show NEW_VERSION value
+        run: echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
 
       - name: Reset version bump commit
         run: |
