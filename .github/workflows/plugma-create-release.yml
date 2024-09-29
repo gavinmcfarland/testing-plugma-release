@@ -67,8 +67,18 @@ jobs:
           TAG_MESSAGE=$(git tag -l --format='%(contents)' $TAG_NAME)
 
           # Assuming the first line is the release title, and the rest is release notes
-          RELEASE_TITLE=$(echo "$TAG_MESSAGE" | head -n 1)
-          RELEASE_NOTES=$(echo "$TAG_MESSAGE" | tail -n +2 | sed '/^[[:space:]]*$/d')
+          # Extract the release title and notes using markers
+          RELEASE_TITLE=$(echo "$TAG_MESSAGE" | sed -n 's/^TITLE: //p')
+          RELEASE_NOTES=$(echo "$TAG_MESSAGE" | sed -n '/^NOTES: /,$p' | sed 's/^NOTES: //')
+
+          # Fallback if no title or notes are found
+          if [ -z "$RELEASE_TITLE" ]; then
+            RELEASE_TITLE=$TAG_NAME
+          fi
+
+          if [ -z "$RELEASE_NOTES" ]; then
+            RELEASE_NOTES=""
+          fi
 
           echo "Tag message is: $TAG_MESSAGE"
           echo "Release title is: $RELEASE_TITLE"
