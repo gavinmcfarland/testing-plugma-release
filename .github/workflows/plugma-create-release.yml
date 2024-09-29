@@ -77,7 +77,7 @@ jobs:
           fi
 
           if [ -z "$RELEASE_NOTES" ]; then
-            RELEASE_NOTES="No notes provided."
+            RELEASE_NOTES="No release notes provided."
           fi
 
           echo "Tag message is: $TAG_MESSAGE"
@@ -86,6 +86,20 @@ jobs:
 
           echo "RELEASE_TITLE=$RELEASE_TITLE" >> $GITHUB_ENV
           echo "RELEASE_NOTES=$RELEASE_NOTES" >> $GITHUB_ENV
+
+      - name: Clear Tag Message
+        run: |
+          TAG_NAME="${{ github.ref }}"
+          TAG_NAME=${TAG_NAME#refs/tags/}
+
+          # Delete the tag locally
+          git tag -d $TAG_NAME
+
+          # Recreate the tag with no message
+          git tag -a $TAG_NAME -m ""
+
+          # Force push the updated tag without a message
+          git push --force origin $TAG_NAME
 
       - name: Create GitHub Release
         id: create_release
