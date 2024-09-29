@@ -37,7 +37,7 @@
         ]
       }
     },
-    "pluginVersion": "7-alpha.28"
+    "pluginVersion": "7-alpha.29"
   },
   "dependencies": {
     "dotenv": "^16.4.5"
