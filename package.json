@@ -39,6 +39,7 @@
     "pluginVersion": "34"
   },
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "plugma": "^1.0.0-4"
   }
 }
