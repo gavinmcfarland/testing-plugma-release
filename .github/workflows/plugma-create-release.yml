@@ -57,7 +57,7 @@ jobs:
         run: |
           TAG_NAME="${{ github.ref }}"
           TAG_NAME=${TAG_NAME#refs/tags/}
-          TAG_MESSAGE=$(git tag -l --format='%(contents)' $TAG_NAME)
+          TAG_MESSAGE=$(git show $TAG_NAME --pretty=format:%B -s)
 
           # Print TAG_MESSAGE to the workflow logs for debugging
           echo "Tag message is: $TAG_MESSAGE"
