@@ -59,7 +59,7 @@ jobs:
         run: |
           TAG_NAME="${{ github.ref }}"
           TAG_NAME=${TAG_NAME#refs/tags/}
-          TAG_MESSAGE=$(git tag -l --format='%(contents)' $TAG_NAME)
+          TAG_MESSAGE=$(git show "$TAG_NAME" --pretty=format:%B -s)
 
           # Assuming the first line is the release title, and the rest is release notes
           RELEASE_TITLE=$(echo "$TAG_MESSAGE" | head -n 1)
