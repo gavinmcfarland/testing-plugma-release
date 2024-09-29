@@ -35,7 +35,7 @@ jobs:
           else
             echo "This is a stable release version: $NEW_VERSION"
             echo "IS_PRERELEASE=false" >> $GITHUB_ENV
-          fi  # Close the if statement
+          fi
 
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
@@ -43,26 +43,26 @@ jobs:
         run: git tag -l
 
       - name: Build project
-        run: npm run build # Now that dependencies are installed, this should work
+        run: npm run build
 
       - name: Zip dist folder
         run: zip -r dist.zip dist
 
       - name: Create GitHub Release
         id: create_release
-        uses: actions/create-release@v1 # Use v3 of the action for Node.js 16 compatibility
+        uses: actions/create-release@v1
         with:
-          tag_name: ${{ env.NEW_VERSION }} # Use the new version tag
-          release_name: ${{ env.NEW_VERSION }} # Name the release after the new version
+          tag_name: ${{ env.NEW_VERSION }}
+          release_name: ${{ env.NEW_VERSION }}
           body: |
             Release version ${{ env.NEW_VERSION }}
           draft: false
-          prerelease: ${{ env.IS_PRERELEASE }} # Mark prerelease if alpha/beta
+          prerelease: ${{ env.IS_PRERELEASE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload release asset
-        uses: actions/upload-release-asset@v1 # Use v3 of the action for Node.js 16 compatibility
+        uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dist.zip
@@ -70,3 +70,17 @@ jobs:
           asset_content_type: application/zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  rollback:
+    runs-on: ubuntu-latest
+    needs: release
+    if: ${{ failure() }} # Ensure rollback only runs on job failure
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Reset version bump commit
+        run: |
+          echo "Rolling back version bump commit due to workflow failure..."
+          git reset --hard HEAD^1
+          git push origin main --force
