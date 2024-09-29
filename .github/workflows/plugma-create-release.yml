@@ -106,4 +106,4 @@ jobs:
       - name: Delete the tag on remote
         run: |
           echo "Deleting remote tag: ${{ env.NEW_VERSION }}"
-          git push origin :refs/tags/${{ env.NEW_VERSION }}" # Deletes the tag on the remote
+          git push origin :refs/tags/${{ env.NEW_VERSION }} # Deletes the tag on the remote
