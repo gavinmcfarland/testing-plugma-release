@@ -71,10 +71,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # Add a rollback job to handle failures
   rollback:
     runs-on: ubuntu-latest
-    if: failure() # Run only if the release job fails
+    needs: release # This ensures rollback runs only after release job completes
+    if: failure() # Execute rollback only if the release job fails
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
