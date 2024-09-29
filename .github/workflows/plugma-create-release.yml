@@ -23,6 +23,11 @@ jobs:
           tags: true
           fetch-depth: 1 # Fetch the latest commit
 
+      - name: Fetch the specific tag
+        run: |
+          # Fetch the tag related to the github.ref
+          git fetch --tags --force
+
       - name: Install dependencies
         run: npm ci # Use 'npm ci' for clean installation of dependencies
 
