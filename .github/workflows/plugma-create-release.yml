@@ -63,14 +63,14 @@ jobs:
 
           # Assuming the first line is the release title, and the rest is release notes
           RELEASE_TITLE=$(echo "$TAG_MESSAGE" | head -n 1)
-          RELEASE_NOTES=$(echo "$TAG_MESSAGE" | tail -n +2)
+          RELEASE_NOTES=$(echo "$TAG_MESSAGE" | tail -n +2 | sed '/^[[:space:]]*$/d')
 
           echo "Tag message is: $TAG_MESSAGE"
           echo "Release title is: $RELEASE_TITLE"
           echo "Release notes is: $RELEASE_NOTES"
 
-          echo "RELEASE_TITLE=title" >> $GITHUB_ENV
-          echo "RELEASE_NOTES=hellow" >> $GITHUB_ENV
+          echo "RELEASE_TITLE=$RELEASE_TITLE" >> $GITHUB_ENV
+          echo "RELEASE_NOTES=$RELEASE_NOTES" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         id: create_release
