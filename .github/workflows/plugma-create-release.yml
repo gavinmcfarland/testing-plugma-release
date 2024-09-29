@@ -64,11 +64,12 @@ jobs:
           # Print TAG_MESSAGE to the workflow logs for debugging
           echo "Tag message is: $TAG_MESSAGE"
 
-          # Assuming you still want to use it for release notes
-          RELEASE_NOTES="$TAG_MESSAGE"
+          # Assuming the first line is the release title, and the rest is release notes
+          RELEASE_TITLE=$(echo "$TAG_MESSAGE" | head -n 1)
+          RELEASE_NOTES=$(echo "$TAG_MESSAGE" | tail -n +2)
 
+          echo "RELEASE_TITLE=$RELEASE_TITLE" >> $GITHUB_ENV
           echo "RELEASE_NOTES=$RELEASE_NOTES" >> $GITHUB_ENV
-          echo "RELEASE_TITLE=${{ env.RELEASE_TITLE }}" >> $GITHUB_ENV  # Passed separately
 
       - name: Create GitHub Release
         id: create_release
