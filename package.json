@@ -36,7 +36,7 @@
         ]
       }
     },
-    "pluginVersion": "27"
+    "pluginVersion": "28"
   },
   "dependencies": {
     "dotenv": "^16.4.5"
