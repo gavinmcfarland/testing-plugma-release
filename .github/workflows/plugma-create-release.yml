@@ -87,3 +87,13 @@ jobs:
           echo "Rolling back version bump commit due to workflow failure..."
           git reset --hard HEAD^1
           git push origin main --force
+
+      - name: Delete the tag locally
+        run: |
+          echo "Deleting tag due to workflow failure..."
+          git tag -d "${{ env.NEW_VERSION }}" # Deletes the tag locally
+
+      - name: Delete the tag on remote
+        run: |
+          echo "Deleting remote tag due to workflow failure..."
+          git push origin :refs/tags/${{ env.NEW_VERSION }} # Deletes the tag on the remote
