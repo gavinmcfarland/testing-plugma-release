@@ -85,8 +85,9 @@ jobs:
           ref: main # Make sure we are on the main branch
           fetch-depth: 0 # Fetch all history so we can perform the reset
 
-      - name: Debug: Show NEW_VERSION value
-        run: echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
+      - name: Show NEW_VERSION value
+        run: |
+          echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
 
       - name: Reset version bump commit
         run: |
