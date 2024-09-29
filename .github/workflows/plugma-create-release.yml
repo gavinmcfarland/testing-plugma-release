@@ -76,8 +76,11 @@ jobs:
     needs: release # Ensures rollback runs only after release job completes
     if: ${{ failure() }} # Check if release job failed
     steps:
-      - name: Checkout repository
+      - name: Checkout repository with full history
         uses: actions/checkout@v3
+        with:
+          ref: main # Make sure we are on the main branch
+          fetch-depth: 0 # Fetch all history so we can perform the reset
 
       - name: Reset version bump commit
         run: |
