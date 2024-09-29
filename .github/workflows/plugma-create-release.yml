@@ -61,8 +61,6 @@ jobs:
           body: ${{ env.RELEASE_NOTES }} # Use RELEASE_NOTES if provided, otherwise fallback
           draft: false
           prerelease: ${{ env.IS_PRERELEASE }}
-          run: |
-            echo "RELEASE_TITLE is set to: ${{ env.RELEASE_TITLE  }}. RELEASE_NOTES is set to: ${{ env.RELEASE_NOTES  }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
