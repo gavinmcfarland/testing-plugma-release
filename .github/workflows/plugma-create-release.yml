@@ -65,6 +65,10 @@ jobs:
           RELEASE_TITLE=$(echo "$TAG_MESSAGE" | head -n 1)
           RELEASE_NOTES=$(echo "$TAG_MESSAGE" | tail -n +2)
 
+          echo "Tag message is: $TAG_MESSAGE"
+          echo "Release title is: $RELEASE_TITLE"
+          echo "Release notes is: $RELEASE_NOTES"
+
           echo "RELEASE_TITLE=$RELEASE_TITLE" >> $GITHUB_ENV
           echo "RELEASE_NOTES=$RELEASE_NOTES" >> $GITHUB_ENV
 
