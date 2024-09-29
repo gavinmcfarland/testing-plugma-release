@@ -52,13 +52,27 @@ jobs:
       - name: Zip dist folder
         run: zip -r dist.zip dist
 
+      - name: Extract Release Title and Notes from Tag
+        id: extract_tag_message
+        run: |
+          TAG_NAME="${{ github.ref }}"
+          TAG_NAME=${TAG_NAME#refs/tags/}
+          TAG_MESSAGE=$(git tag -l --format='%(contents)' $TAG_NAME)
+
+          # Assuming the first line is the release title, and the rest is release notes
+          RELEASE_TITLE=$(echo "$TAG_MESSAGE" | head -n 1)
+          RELEASE_NOTES=$(echo "$TAG_MESSAGE" | tail -n +2)
+
+          echo "RELEASE_TITLE=$RELEASE_TITLE" >> $GITHUB_ENV
+          echo "RELEASE_NOTES=$RELEASE_NOTES" >> $GITHUB_ENV
+
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         with:
           tag_name: ${{ env.NEW_VERSION }}
-          release_name: ${{ env.RELEASE_TITLE || env.NEW_VERSION }} # Use RELEASE_TITLE if provided, otherwise fallback to version
-          body: ${{ env.RELEASE_NOTES }} # Use RELEASE_NOTES if provided, otherwise fallback
+          release_name: ${{ env.RELEASE_TITLE }}
+          body: ${{ env.RELEASE_NOTES }}
           draft: false
           prerelease: ${{ env.IS_PRERELEASE }}
         env:
