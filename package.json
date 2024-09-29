@@ -11,7 +11,7 @@
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@tsconfig/svelte": "^5.0.2",
     "esbuild": "^0.19.9",
-    "plugma": "^1.0.0-5",
+    "plugma": "^1.0.0-6",
     "svelte": "^4.2.3",
     "svelte-check": "^3.6.0",
     "tslib": "^2.6.2",
@@ -37,7 +37,7 @@
         ]
       }
     },
-    "pluginVersion": "40"
+    "pluginVersion": "0"
   },
   "dependencies": {
     "dotenv": "^16.4.5"
