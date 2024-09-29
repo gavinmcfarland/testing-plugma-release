@@ -91,9 +91,9 @@ jobs:
       - name: Delete the tag locally
         run: |
           echo "Deleting tag due to workflow failure..."
-          git tag -d "v${{ env.NEW_VERSION }}" # Deletes the tag locally
+          git tag -d "${{ env.NEW_VERSION }}" # Deletes the tag locally
 
       - name: Delete the tag on remote
         run: |
           echo "Deleting remote tag due to workflow failure..."
-          git push origin :refs/tags/v${{ env.NEW_VERSION }} # Deletes the tag on the remote
+          git push origin :refs/tags/${{ env.NEW_VERSION }} # Deletes the tag on the remote
