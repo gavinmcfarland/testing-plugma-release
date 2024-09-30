@@ -77,7 +77,7 @@ jobs:
           fi
 
           if [ -z "$RELEASE_NOTES" ]; then
-            RELEASE_NOTES="No release notes provided."
+            RELEASE_NOTES=""
           fi
 
           echo "Tag message is: $TAG_MESSAGE"
